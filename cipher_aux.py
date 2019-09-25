@@ -7,22 +7,22 @@ A =  [.08167, .01492, .02782, .04253, .12702, .02228, .02015, \
       .07507, .01929, .00095, .05987, .06327, .09056, .02758, \
       .00978, .02360, .00150, .01974, .00074]
 
-def string_to_list(message):
-    return list(message)
+def string_to_list(message_s):
+    return [ord(c)-ord('A') for c in message_s.upper()]
 
-def list_to_string(message):
-    return ''.join(message)
+def list_to_string(message_l):
+    return ''.join([chr(c+ord('A')) for c in message_l])
 
-def clean_string(message):
+def clean_string(message_s):
     regex = re.compile('[^a-zA-Z]')
-    return regex.sub('', message).upper()
+    return regex.sub('', message_s).upper()
 
-def clean_list(message):
-    s = clean_string(list_to_string(message))
-    return string_to_list(s)
+def clean_list(message_l):
+    message_s = clean_string(list_to_string(message_l))
+    return string_to_list(message_s)
 
 def mod_char(a):
-    return ((a - ord('A')) % 26) + ord('A')
+    return a%26
 
 def get_A_i(i):
     return A[-i:] + A[:-i]
