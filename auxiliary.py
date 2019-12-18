@@ -1,4 +1,5 @@
 import re
+import sys
 
 VALID_ALPHA     = [1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25]
 VALID_ALPHA_INV = [1, 9, 21, 15, 3, 19, 7, 23, 11, 5, 17, 25]
@@ -13,6 +14,12 @@ def string_to_list(message_s):
 def list_to_string(message_l):
     return ''.join([chr(c+ord('A')) for c in message_l])
 
+def mod_char(a):
+    return a%26
+
+def get_A_i(i):
+    return A[-i:] + A[:-i]
+
 def clean_string(message_s):
     regex = re.compile('[^a-zA-Z]')
     return regex.sub('', message_s).upper()
@@ -21,8 +28,12 @@ def clean_list(message_l):
     message_s = clean_string(list_to_string(message_l))
     return string_to_list(message_s)
 
-def mod_char(a):
-    return a%26
-
-def get_A_i(i):
-    return A[-i:] + A[:-i]
+def list_from_file(filename):
+    try:
+        f = open(filename, 'r')
+    except IOError:
+        print("Could not read file: %s" % filename)
+        return []
+    m_s = f.read()
+    f.close()
+    return string_to_list(clean_string(m_s))
